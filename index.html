@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VaultForce Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #050e1a;
+      --dark: #071525;
+      --surface: #0a1e35;
+      --steel: #0d2644;
+      --border: #1a3a5c;
+      --accent: #00c2ff;
+      --accent2: #60d4ff;
+      --accent-glow: rgba(0,194,255,0.15);
+      --white: #ffffff;
+      --muted: #b8d9f0;
+      --sf-blue: #1589ee;
+      --sf-dark: #032d60;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* SALESFORCE ANNOUNCEMENT BAR */
+    .sf-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: linear-gradient(90deg, #032d60, #0070d2, #00a1e0, #0070d2, #032d60);
+      background-size: 300% 100%;
+      animation: sfBarShift 6s linear infinite;
+      padding: 0.5rem 2rem;
+      text-align: center;
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+    }
+
+    @keyframes sfBarShift {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 300% 0%; }
+    }
+
+    .sf-bar-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .sf-bar-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.2rem 0.7rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: #fff;
+      border-radius: 2px;
+    }
+
+    /* SALESFORCE CLOUD BADGES */
+    .sf-clouds {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+    }
+
+    .sf-cloud-badge {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--steel);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .sf-cloud-badge:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* SALESFORCE HIGHLIGHT SECTION */
+    .sf-highlight {
+      background: linear-gradient(135deg, #032d60 0%, #0070d2 50%, #00a1e0 100%);
+      padding: 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sf-highlight::before {
+      content: 'SALESFORCE';
+      position: absolute;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14rem;
+      color: rgba(255,255,255,0.04);
+      right: -2rem; top: 50%;
+      transform: translateY(-50%);
+      letter-spacing: 0.1em;
+      pointer-events: none;
+    }
+
+    .sf-highlight-left { position: relative; z-index: 1; }
+
+    .sf-highlight-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 0.8rem;
+    }
+
+    .sf-highlight h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: #fff;
+      line-height: 1;
+    }
+
+    .sf-highlight p {
+      color: rgba(255,255,255,0.75);
+      margin-top: 1rem;
+      max-width: 480px;
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .sf-highlight-right {
+      position: relative; z-index: 1;
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      max-width: 420px;
+    }
+
+    .sf-cert-badge {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      padding: 1.2rem 1.5rem;
+      text-align: center;
+      min-width: 120px;
+      transition: all 0.3s;
+    }
+
+    .sf-cert-badge:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+    }
+
+    .sf-cert-badge .cert-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+
+    .sf-cert-badge .cert-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* nav offset for top bar */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(5,14,26,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+    }
+
+    .nav-logo span { color: var(--white); }
+
+    .nav-links {
+      display: flex; gap: 2.5rem; list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #cce6f8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.4rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent);
+      color: var(--black);
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 7rem 5rem 0;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(160deg, #050e1a 55%, #032d60 100%);
+    }
+
+    .hero-inner {
+      position: relative; z-index: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-content { width: 100%; max-width: 1100px; }
+
+    .hero-grid-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,161,224,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,161,224,0.05) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    .hero-glow {
+      position: absolute;
+      bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 400px;
+      background: radial-gradient(ellipse, rgba(0,161,224,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-glow2 {
+      position: absolute;
+      top: -100px; right: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(21,137,238,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+      background: rgba(0,194,255,0.07);
+      border: 1px solid rgba(0,194,255,0.2);
+      padding: 0.5rem 1.4rem;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 11vw, 10rem);
+      line-height: 0.92;
+      letter-spacing: 0.03em;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s forwards;
+    }
+
+    h1 .accent {
+      color: var(--accent);
+      -webkit-text-stroke: 0;
+      font-weight: 900;
+    }
+
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #c0dcf0;
+      max-width: 600px;
+      margin-left: auto; margin-right: auto;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1.2rem; align-items: center;
+      justify-content: center;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s forwards;
+    }
+
+    .sf-clouds {
+      display: flex; gap: 0.8rem; flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    /* STATS STRIP */
+    .hero-stats-strip {
+      width: 100vw;
+      margin-left: calc(-5rem);
+      margin-top: 4rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+      position: relative; z-index: 1;
+    }
+
+    .hstrip-item {
+      padding: 2rem 2.5rem;
+      border-right: 1px solid var(--border);
+      background: rgba(10,30,53,0.6);
+      backdrop-filter: blur(8px);
+      transition: background 0.3s;
+    }
+
+    .hstrip-item:hover { background: rgba(13,38,68,0.9); }
+    .hstrip-item:last-child { border-right: none; }
+
+    .hstrip-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .hstrip-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #b8d9f0;
+      margin-top: 0.3rem;
+    }
+
+    .hstrip-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-primary {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 1rem 2.4rem;
+      background: var(--accent);
+      color: var(--black);
+      border: none; cursor: pointer;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.25s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+    .btn-ghost {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 1rem 2.4rem;
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SECTION COMMON */
+    section { padding: 7rem 4rem; }
+
+    .section-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-tag::before {
+      content: ''; display: block;
+      width: 24px; height: 1px;
+      background: var(--accent);
+    }
+
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      color: var(--white);
+    }
+
+    /* ABOUT */
+    #about {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      max-width: 1200px;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-box {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #0a1e35 0%, #032d60 60%, #0070d2 100%);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-box::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,194,255,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,194,255,0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .about-box-inner {
+      position: relative; z-index: 1;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    }
+
+    .about-vfs-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem;
+      letter-spacing: 0.2em;
+      color: #fff;
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(0,194,255,0.5);
+    }
+
+    .about-vfs-logo span { color: var(--accent); }
+
+    .about-divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .about-sf-badge {
+      display: flex; align-items: center; gap: 0.6rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.5rem 1.2rem;
+      border-radius: 2px;
+    }
+
+    .about-sf-badge img {
+      height: 20px; width: auto;
+    }
+
+    .about-sf-badge span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.85);
+      text-transform: uppercase;
+    }
+
+    .about-founded {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* Salesforce logo in nav */
+    .sf-logo-nav {
+      display: flex; align-items: center; gap: 0.5rem;
+      border-left: 1px solid var(--border);
+      padding-left: 1.2rem;
+      margin-left: 0.5rem;
+    }
+
+    .sf-logo-nav img { height: 18px; width: auto; opacity: 0.85; }
+    .sf-logo-nav span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .about-box-accent {
+      position: absolute;
+      top: -1px; left: -1px;
+      width: 60px; height: 60px;
+      border-top: 2px solid var(--accent);
+      border-left: 2px solid var(--accent);
+    }
+
+    .about-box-accent2 {
+      position: absolute;
+      bottom: -1px; right: -1px;
+      width: 60px; height: 60px;
+      border-bottom: 2px solid var(--accent);
+      border-right: 2px solid var(--accent);
+    }
+
+    .about-year {
+      position: absolute;
+      bottom: -1.5rem; right: 2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      color: var(--accent);
+      opacity: 0.2;
+      line-height: 1;
+    }
+
+    .about-text p {
+      color: #cce6f8;
+      line-height: 1.85;
+      font-weight: 400;
+      margin-top: 1.5rem;
+      font-size: 1.05rem;
+    }
+
+    .about-pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .pillar {
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      background: var(--steel);
+    }
+
+    .pillar-icon {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pillar-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .pillar p {
+      font-size: 0.85rem;
+      color: #b8d9f0;
+      margin-top: 0.3rem;
+      line-height: 1.55;
+    }
+
+    /* SERVICES */
+    #services { background: var(--black); }
+
+    .services-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 4rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2.5rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .services-grid-bottom {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .service-card {
+      background: var(--dark);
+      padding: 2.5rem;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+      cursor: default;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .service-card:hover {
+      background: var(--surface);
+      border-color: var(--accent);
+    }
+
+    .service-card:hover .service-num { color: var(--accent); }
+
+    .service-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: var(--border);
+      line-height: 1;
+      transition: color 0.3s;
+      margin-bottom: 1rem;
+    }
+
+    .service-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.7rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .service-desc {
+      font-size: 0.92rem;
+      color: #c0dfef;
+      line-height: 1.75;
+      font-weight: 400;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1.2rem;
+    }
+
+    .service-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: all 0.3s;
+    }
+
+    .service-card:hover .service-tag {
+      border-color: rgba(0,194,255,0.3);
+      color: var(--accent2);
+    }
+
+    .service-arrow {
+      position: absolute;
+      bottom: 2rem; right: 2rem;
+      font-size: 1.2rem;
+      color: var(--border);
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .service-card:hover .service-arrow {
+      color: var(--accent);
+      transform: translate(4px, -4px);
+    }
+
+
+    /* CONTACT */
+    #contact {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+      max-width: 1200px;
+    }
+
+    .contact-info p {
+      color: #cce6f8;
+      line-height: 1.85;
+      font-weight: 400;
+      margin-top: 1.5rem;
+      font-size: 1rem;
+    }
+
+    .contact-details {
+      margin-top: 2.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border);
+      background: var(--steel);
+    }
+
+    .contact-item-icon {
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    .contact-item-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: #cce6f8;
+      letter-spacing: 0.05em;
+    }
+
+    /* CONTACT CTA BOX */
+    .contact-cta-box {
+      background: var(--steel);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+    }
+
+    .cta-icon { font-size: 2.5rem; }
+
+    .contact-cta-box h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+    }
+
+    .contact-cta-box p {
+      color: #b8d9f0;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      max-width: 400px;
+    }
+
+    .cta-email-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1.1rem 2.4rem;
+      background: var(--accent);
+      color: var(--black);
+      border: none;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.25s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      margin-top: 0.5rem;
+    }
+
+    .cta-email-btn:hover { background: var(--accent2); transform: translateY(-2px); }
+
+    .cta-include {
+      margin-top: 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    }
+
+    .cta-include-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .cta-include-items {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center;
+    }
+
+    .cta-chip {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--border);
+      color: var(--accent2);
+      transition: all 0.2s;
+    }
+
+    .cta-chip:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 3rem 4rem;
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+
+    .footer-logo span { color: var(--white); }
+
+    .footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 1.5rem; }
+      #hero { padding: 7rem 1.5rem 0; }
+      .hero-stats-strip { grid-template-columns: 1fr 1fr; margin-left: -1.5rem; width: 100vw; }
+      .about-inner, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .services-grid-bottom { grid-template-columns: 1fr; }
+      .sf-clouds { gap: 0.6rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .services-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">VaultForce <span>Solutions</span></div>
+  <ul class="nav-links">
+    <li><a href="#who-we-are">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <a href="#contact" class="nav-cta">Get In Touch</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-tag">☁️ &nbsp; Certified Salesforce Partner</div>
+      <h1>VAULT<span class="accent">FORCE</span><br>SOLUTIONS</h1>
+      <p class="hero-sub">We implement, customize, and optimize Salesforce platforms that transform how your business sells, services, and grows — end to end.</p>
+      <div class="hero-actions">
+        <a href="#services" class="btn-primary">Explore Services</a>
+        <a href="#who-we-are" class="btn-ghost">Who We Are</a>
+      </div>
+      <div class="sf-clouds">
+        <div class="sf-cloud-badge">☁️ Sales Cloud</div>
+        <div class="sf-cloud-badge">🛎️ Service Cloud</div>
+        <div class="sf-cloud-badge">🌐 Experience Cloud</div>
+        <div class="sf-cloud-badge">🔮 Data Cloud</div>
+        <div class="sf-cloud-badge">🤖 Agentforce</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats-strip">
+    <div class="hstrip-item">
+      <div class="hstrip-num">2026</div>
+      <div class="hstrip-label">Founded</div>
+      <div class="hstrip-desc">Bangalore, India</div>
+    </div>
+    <div class="hstrip-item">
+      <div class="hstrip-num">98%</div>
+      <div class="hstrip-label">Satisfaction Rate</div>
+      <div class="hstrip-desc">Client happiness first</div>
+    </div>
+    <div class="hstrip-item">
+      <div class="hstrip-num">50+</div>
+      <div class="hstrip-label">Projects Delivered</div>
+      <div class="hstrip-desc">Across multiple industries</div>
+    </div>
+    <div class="hstrip-item">
+      <div class="hstrip-num">5</div>
+      <div class="hstrip-label">Salesforce Clouds</div>
+      <div class="hstrip-desc">Sales · Service · Experience · Data · Agentforce</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner reveal">
+    <div class="about-visual">
+      <div class="about-box">
+        <div class="about-box-accent"></div>
+        <div class="about-box-accent2"></div>
+        <div class="about-box-inner">
+          <div class="about-vfs-logo">V<span>F</span>S</div>
+          <div class="about-divider"></div>
+        </div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-tag" id="who-we-are">Who We Are</div>
+      <h2>BUILT TO<br>LAST</h2>
+      <p>VaultForce Solutions is a dedicated Salesforce implementation and consulting partner. We help businesses unlock the full power of the Salesforce ecosystem — from CRM setup to complex multi-cloud deployments.</p>
+      <p>Our certified Salesforce consultants work as an extension of your team, delivering tailored solutions that drive adoption, streamline operations, and maximize your Salesforce ROI.</p>
+      <div class="about-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">☁️</div>
+          <div class="pillar-title">Certified Experts</div>
+          <p>Salesforce-certified architects and developers on every project.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">⚡</div>
+          <div class="pillar-title">Fast Deployment</div>
+          <p>Rapid, agile delivery without sacrificing quality or stability.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🎯</div>
+          <div class="pillar-title">Business-First</div>
+          <p>We solve business problems — technology is just the tool.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🔒</div>
+          <div class="pillar-title">Secure & Compliant</div>
+          <p>Best-practice security and governance built into every build.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-tag">What We Do</div>
+      <h2>OUR<br>SERVICES</h2>
+    </div>
+    <a href="#contact" class="btn-ghost">Request a Consultation →</a>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon">🛠️</div>
+      <div class="service-title">Salesforce Implementation</div>
+      <p class="service-desc">Full-cycle CRM implementation tailored to your business — from discovery and design to configuration, data migration, and go-live support.</p>
+      <div class="service-tags">
+        <span class="service-tag">CRM Setup</span>
+        <span class="service-tag">Data Migration</span>
+        <span class="service-tag">Go-Live</span>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon">⚙️</div>
+      <div class="service-title">Customization & Development</div>
+      <p class="service-desc">Custom Apex code, Lightning Web Components, Flows, and integrations that extend Salesforce to fit your exact workflows.</p>
+      <div class="service-tags">
+        <span class="service-tag">Apex</span>
+        <span class="service-tag">LWC</span>
+        <span class="service-tag">Flows</span>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon">🔗</div>
+      <div class="service-title">Integration Services</div>
+      <p class="service-desc">Seamlessly connect Salesforce with ERP, marketing, finance, and third-party tools using MuleSoft, REST APIs, and middleware.</p>
+      <div class="service-tags">
+        <span class="service-tag">MuleSoft</span>
+        <span class="service-tag">REST API</span>
+        <span class="service-tag">Middleware</span>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+  </div>
+  <div class="services-grid-bottom reveal">
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-icon">☁️</div>
+      <div class="service-title">Multi-Cloud Solutions</div>
+      <p class="service-desc">Sales Cloud, Service Cloud, Experience Cloud, Data Cloud, and more — we design and deploy multi-cloud architectures that scale with your business.</p>
+      <div class="service-tags">
+        <span class="service-tag">Sales Cloud</span>
+        <span class="service-tag">Service Cloud</span>
+        <span class="service-tag">Experience Cloud</span>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <div class="service-icon">🔮</div>
+      <div class="service-title">Data Cloud 360</div>
+      <p class="service-desc">Unify customer data from every touchpoint into a single, real-time profile. Activate data across marketing, sales, and service for hyper-personalized experiences.</p>
+      <div class="service-tags">
+        <span class="service-tag">CDP</span>
+        <span class="service-tag">Real-Time</span>
+        <span class="service-tag">Unified Profiles</span>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <div class="service-icon">🛡️</div>
+      <div class="service-title">Managed Support</div>
+      <p class="service-desc">Keep your Salesforce org healthy with dedicated managed services — proactive monitoring, health checks, release management, and expert admin support.</p>
+      <div class="service-tags">
+        <span class="service-tag">Monitoring</span>
+        <span class="service-tag">Health Checks</span>
+        <span class="service-tag">Admin</span>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">07</div>
+      <div class="service-icon">🤖</div>
+      <div class="service-title">Agentforce</div>
+      <p class="service-desc">Deploy intelligent AI agents powered by Salesforce Agentforce that autonomously handle inquiries, qualify leads, and automate complex workflows 24/7.</p>
+      <div class="service-tags">
+        <span class="service-tag">AI Agents</span>
+        <span class="service-tag">Automation</span>
+        <span class="service-tag">24/7</span>
+      </div>
+      <div class="service-arrow">↗</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-info reveal">
+      <div class="section-tag">Get In Touch</div>
+      <h2>LET'S<br>TALK</h2>
+      <p>Ready to transform your Salesforce org or start fresh? Our team of certified consultants is here to help. Tell us about your project and we'll get back to you within 24 hours.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">Bangalore, India</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🌐</div>
+          <div class="contact-item-text">vaultforcesolutions.com</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="contact-cta-box">
+        <div class="cta-icon">✉️</div>
+        <h3>Drop Us An Email</h3>
+        <p>Share your project details, requirements, and any questions — our certified Salesforce consultants will get back to you within 24 hours.</p>
+        <a href="mailto:hello@vaultforcesolutions.com?subject=Project%20Inquiry%20-%20VaultForce%20Solutions" class="cta-email-btn">hello@vaultforcesolutions.com →</a>
+        <div class="cta-include">
+          <div class="cta-include-title">Please include:</div>
+          <div class="cta-include-items">
+            <span class="cta-chip">Your Name</span>
+            <span class="cta-chip">Company</span>
+            <span class="cta-chip">Service Interest</span>
+            <span class="cta-chip">Project Details</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">VaultForce <span>Solutions</span></div>
+  <div class="footer-copy">© 2026 VaultForce Solutions. All rights reserved.</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
